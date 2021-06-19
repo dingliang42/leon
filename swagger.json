@@ -1,0 +1,312 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "The api document is built at: 2021-06-19 18:40:13 +0800",
+    "version" : "0",
+    "title" : "接口文档"
+  },
+  "basePath" : "/",
+  "tags" : [ {
+    "name" : "ComplaintController",
+    "description" : ""
+  }, {
+    "name" : "HealthCheckController",
+    "description" : "Consul健康检查服务\n"
+  } ],
+  "paths" : {
+    "/315/complaints" : {
+      "get" : {
+        "tags" : [ "ComplaintController" ],
+        "summary" : "投诉列表首页数据",
+        "description" : "投诉列表首页数据\n",
+        "operationId" : "ComplaintController.getComplaintList",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/AjaxResponse%3CList%3CComplaintVO%3E%3E"
+            }
+          }
+        }
+      }
+    },
+    "/315/saveNewTs" : {
+      "post" : {
+        "tags" : [ "ComplaintController" ],
+        "summary" : "提交新的投诉单",
+        "description" : "提交新的投诉单\n",
+        "operationId" : "ComplaintController.batchUpdateOpWorkOrder",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "complaintVO",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ComplaintVO"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/AjaxResponse%3CBoolean%3E"
+            }
+          }
+        }
+      }
+    },
+    "/315/statistics" : {
+      "get" : {
+        "tags" : [ "ComplaintController" ],
+        "summary" : "查询投诉统计信息",
+        "description" : "查询投诉统计信息\n",
+        "operationId" : "ComplaintController.getStatistics",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/AjaxResponse%3CStatisticsInfo%3E"
+            }
+          }
+        }
+      }
+    },
+    "/i/health" : {
+      "post" : {
+        "tags" : [ "HealthCheckController" ],
+        "summary" : "健康检查接口",
+        "description" : "健康检查接口\n",
+        "operationId" : "HealthCheckController.checkHealth",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "AjaxResponse<Boolean>" : {
+      "properties" : {
+        "code" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "\\[RetCode\\] ，状态码，200成功\n"
+        },
+        "errorCode" : {
+          "type" : "string",
+          "description" : "错误码. 500服务端执行失败\n"
+        },
+        "errorMsg" : {
+          "type" : "string",
+          "description" : "错误文案\n"
+        },
+        "data" : {
+          "type" : "boolean",
+          "description" : "具体业务需要返回结果\n"
+        }
+      }
+    },
+    "AjaxResponse<List<ComplaintVO>>" : {
+      "properties" : {
+        "code" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "\\[RetCode\\] ，状态码，200成功\n"
+        },
+        "errorCode" : {
+          "type" : "string",
+          "description" : "错误码. 500服务端执行失败\n"
+        },
+        "errorMsg" : {
+          "type" : "string",
+          "description" : "错误文案\n"
+        },
+        "data" : {
+          "type" : "array",
+          "description" : "具体业务需要返回结果\n",
+          "items" : {
+            "$ref" : "#/definitions/ComplaintVO"
+          }
+        }
+      }
+    },
+    "AjaxResponse<StatisticsInfo>" : {
+      "properties" : {
+        "code" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "\\[RetCode\\] ，状态码，200成功\n"
+        },
+        "errorCode" : {
+          "type" : "string",
+          "description" : "错误码. 500服务端执行失败\n"
+        },
+        "errorMsg" : {
+          "type" : "string",
+          "description" : "错误文案\n"
+        },
+        "data" : {
+          "description" : "具体业务需要返回结果\n",
+          "$ref" : "#/definitions/StatisticsInfo"
+        }
+      }
+    },
+    "ComplaintVO" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "主键自增id\n"
+        },
+        "code" : {
+          "type" : "string",
+          "description" : "投诉单编号\n"
+        },
+        "state" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "投诉单状态 1：待受理，2：受理中，3、4：办理中，5、6：已办结\n"
+        },
+        "syncState" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "315平台同步状态 1：未同步， 2：同步成功 3. 已撤销\n"
+        },
+        "userName" : {
+          "type" : "string",
+          "description" : "投诉人姓名\n"
+        },
+        "userMobile" : {
+          "type" : "string",
+          "description" : "投诉人手机号码\n"
+        },
+        "userSex" : {
+          "type" : "boolean",
+          "description" : "投诉人性别：0男1女\n"
+        },
+        "userProvince" : {
+          "type" : "string",
+          "description" : "省份\n"
+        },
+        "userCity" : {
+          "type" : "string",
+          "description" : "城市\n"
+        },
+        "complainType" : {
+          "type" : "string",
+          "description" : "投诉类型\n"
+        },
+        "title" : {
+          "type" : "string",
+          "description" : "投诉标题\n"
+        },
+        "comName" : {
+          "type" : "string",
+          "description" : "企业名称（购买平台，直播平台）\n"
+        },
+        "comTel" : {
+          "type" : "string",
+          "description" : "企业电话\n"
+        },
+        "comIndustry" : {
+          "type" : "string",
+          "description" : "行业类别\n"
+        },
+        "comAddress" : {
+          "type" : "string",
+          "description" : "企业地址/直播间\n"
+        },
+        "shopName" : {
+          "type" : "string",
+          "description" : "店铺名称/网红名称\n"
+        },
+        "shopModel" : {
+          "type" : "string",
+          "description" : "店铺形式\n"
+        },
+        "tsOrigin" : {
+          "type" : "string",
+          "description" : "投诉来源\n"
+        },
+        "brand" : {
+          "type" : "string",
+          "description" : "投诉品牌\n"
+        },
+        "model" : {
+          "type" : "string",
+          "description" : "投诉产品型号\n"
+        },
+        "price" : {
+          "type" : "number",
+          "format" : "double",
+          "description" : "消费金额，整数位7位，小数位2位\n"
+        },
+        "appeal" : {
+          "type" : "string",
+          "description" : "诉求：退款、换货、赔款、曝光\n"
+        },
+        "content" : {
+          "type" : "string",
+          "description" : "投诉内容\n"
+        },
+        "attach" : {
+          "type" : "string",
+          "description" : "附件（图片地址）;多张用英文';'隔开最多3张\n"
+        },
+        "orderNo" : {
+          "type" : "string",
+          "description" : "订单编号\n"
+        },
+        "channel" : {
+          "type" : "string",
+          "description" : "购买渠道\n"
+        },
+        "allowExposure" : {
+          "type" : "boolean",
+          "description" : "是否允许曝光\n"
+        },
+        "allowCompromise" : {
+          "type" : "boolean",
+          "description" : "是否先行和解\n"
+        },
+        "onTop" : {
+          "type" : "boolean",
+          "description" : "是否置顶，置顶的会出现在首页\n"
+        },
+        "comments" : {
+          "type" : "string",
+          "description" : "备注，补充描述\n"
+        },
+        "createTime" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "投诉创建时间\n"
+        },
+        "updateTime" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "修改时间\n"
+        }
+      }
+    },
+    "StatisticsInfo" : {
+      "properties" : {
+        "amount" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "投诉受理单量\n"
+        },
+        "percentage" : {
+          "type" : "number",
+          "format" : "double",
+          "description" : "办结率，百分号前面的数字\n"
+        }
+      }
+    }
+  },
+  "x-project-version" : "1.0-SNAPSHOT",
+  "x-swagger-plugin-version" : "1.6.1"
+}
